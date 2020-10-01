@@ -1,0 +1,98 @@
+
+************************************************************************************
+	INSTALLING JENKINS
+************************************************************************************
+
+1. Launch Red-hat Linux EC2 instance
+
+2. Install java and set path
+	
+	# yum update -y
+	
+	# yum install java-1.8*
+	
+	#** Edit /etc/profile file to set JAVA_HOME permanantly for all users
+	> sudo su -  	/*** This will switch to root user ***/
+	> find / -name java
+	> ls -la
+	> vi .bash_profile 
+	    JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
+		PATH=$PATH:$JAVA_HOME
+
+3. Download Jenkins on to EC2 Instance
+	
+	# yum install wget -y
+	
+	# sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+	
+	# sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+	
+		Ref Link: https://pkg.jenkins.io/redhat/
+
+4. Install Jenkins
+	
+	# yum install jenkins -y
+
+5. Start Jenkins service:-
+	
+	# service jenkins start
+
+	# java -version
+
+6. In browser, give the Jenkins URL:-
+	
+	 <Public IP>:8080
+
+
+************************************************************************************
+	CONFIGURATION
+************************************************************************************
+
+
+1. Open default port 8080 in Security Group
+
+2. Login to Jenkins Console
+	
+	<Public IP>:8080 (type in the browser)
+	
+	Username : admin
+	
+	Password location : /var/lib/jenkins/secrets/initialAdminPassword
+
+3. Skip plugins installation (we can do it later)
+
+4. change admin password
+	
+	admin -> configure -> password  [password is set to "jenkinsuser"]
+
+5. Configure java path under Jenkins configuration
+	
+	Jenkins-> Manage Jenkins -> Global Tool Configuration -> JDK 
+ 
+	to check jdk path in the linux machine use the command:  find / -name javac  
+	
+	Ex:- It should be similar to the following:-
+		
+		/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-0.el8_1.x86_64/
+
+
+************************************************************************************
+	RUN A TEST JOB
+************************************************************************************
+
+
+1. Create "new item"
+
+2. Enter an item name - hello-world
+	
+	Choose Freestyle project
+
+3. Under Build section
+	
+	Execute shell : echo "Hello World"
+
+4. Save your job
+
+5. Build job
+
+6. Check "console output"
